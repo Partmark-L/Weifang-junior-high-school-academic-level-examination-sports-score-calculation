@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="js/mui.min.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+		
+    </script>
+</head>
+<body>
+<center>
+  <h1>女子体育成绩</h1>
+  <p>跑步成绩使用十进制小数，如：三分二十五秒即为3.25。立定跳远单位为厘米。</p>
+  <p>姓名&nbsp;&nbsp;&nbsp;<input type="text" id="name" value="选填"></p>
+  <p>跑步成绩&nbsp;<input type="text" id="run"></p>
+  <p>仰卧起坐&nbsp;<input type="text" id="yinTi"></p>
+  <p>立定跳远&nbsp;<input type="text" id="tiaoYuan"></p>
+  <p>坐位体前屈<input type="text" id="zuoWei"></p>
+  <p>日常成绩&nbsp;<input type="text" id="riChang" value=10></p>
+  <p>训练表现&nbsp;<input type="text" id="xun" value=10></p>
+
+  <p><button onClick="getinput()" >查看结果</button></p>
+  <h1><p id="demo"></p></h1>
+  <h5><p id="rc"></p></h5>
+
+  <a href=""></a>
+  <style type="text/css">
+    .div_foot {
+
+      position: absolute;
+
+      height: 60px;
+
+      text-align: center;
+
+      line-height: 11;
+
+      width: 100%;
+  </style>
+
+  <div class="div_foot">
+    <p><strong> </strong></p>
+  </div>
+</center>
+
+<script type="text/javascript">
+
+  function getinput(){
+    var point = new Array(110,109,108,107,106,105,104,103,102,101,100,95,90,85,80,78,76,74,72,70,68,66,64,62,60,50,40,30,20,10);
+    var commonPoint = new Array(100,95,90,85,80,78,76,74,72,70,68,66,64,62,60,50,40,30,20,10);
+    var yinPoint = new Array(110,109,108,107,106,105,104,103,102,101,100,95,90,85,80,76,72,68,64,60,50,40,30,20,10);
+    var runStandard = new Array(2.4,2.55,2.45,2.5,2.55,3,3.05,3.1,3.15,3.2,3.25,3.32,3.39,3.47,3.55,4,4.05,4.1,4.15,4.2,4.25,4.3,4.35,4.4,4.45,4.55,5.05,5.15,5.25,4.35);
+    var jumpStandard = new Array(202,196,190,183,176,173,170,167,164,161,158,155,152,149,146,141,136,131,126,121);
+    var zuoweiStandard = new Array(23.5,21.8,20.1,18.4,16.7,15.4,14.1,12.8,11.5,10.2,8.9,7.6,6.3,5,3.7,2.9,2.1,1.3,0.5,-0.3);
+    var yinStandard = new Array(65,64,63,62,61,60,59,58,56,54,52,50,48,45,42,40,38,36,34,32,30,28,26,24,22,20,18,16,14,12);
+
+    var i = 0;
+    var n = 1;
+    var run = document.getElementById("run").value;
+    var jump = document.getElementById("tiaoYuan").value;
+    var zuoWei = document.getElementById("zuoWei").value;
+    var yinTi = document.getElementById("yinTi").value;
+
+
+    var jumpDefen =0;
+    var zuoDefen = 0;
+    var runDefen =0;
+    var zuoDefen = 0;
+    var yinDefen = 0
+    for(;;){
+      if(Number(run) > runStandard[i] && Number(run) <= runStandard[n]){
+        runDefen = point[n];
+
+        var runC = (Number(run)-runStandard[i])*100 ;
+        var nextRun = runStandard[i];
+        var nextRunPoint = point[n-1] - point[n];
+        i = 0;
+        n = 1;
+        break;
+      }
+      if(Number(run) < runStandard[i]){
+        runDefen = point[0];
+        var runc = 999;
+        i = 0;
+        n = 1;
+        break;
+      }
+      if(Number(run) > runStandard[29]){
+        runDefen = 0;
+        var runc = 999;
+        i = 0;
+        n = 1;
+        break;
+      }
+      i++;
+      n++;
+
+    }
+
+    for(;;){
+      if(Number(jump) < jumpStandard[i] && Number(jump) >= jumpStandard[n]){
+        jumpDefen = commonPoint[n];
+        var jumpC = jumpStandard[i] - Number(jump);
+        var nextJump = jumpStandard[i];
+        var jumpPointC = commonPoint[n-1] - commonPoint[n];
+        i = 0;
+        n = 1;
+        break
+      }
+      if(Number(jump) > jumpStandard[0]){
+        jumpDefen = commonPoint[0];
+        i = 0;
+        n = 1;
+        break;
+      }
+      if(Number(jump) < jumpStandard[19]){
+        jumpDefen = 0;
+        i = 0;
+        n = 1;
+        break;
+      }
+      i++;
+      n++;
+
+    }
+    for(;;){
+      if(Number(zuoWei) < zuoweiStandard[i] && Number(zuoWei) >= zuoweiStandard[n]){
+        zuoDefen = commonPoint[n];
+        var nextZuo = zuoweiStandard[i];
+        var zuoC = zuoweiStandard[i] - Number(zuoWei);
+        var zuoPointC = commonPoint[n-1] - commonPoint[n];
+        i = 0;
+        n = 1;
+        break
+      }
+      if(Number(zuoWei) > zuoweiStandard[0]){
+        zuoDefen = commonPoint[0];
+        i = 0;
+        n = 1;
+        break;
+      }
+      if(Number(zuoWei) < zuoweiStandard[19]){
+        zuoDefen = 0;
+        i = 0;
+        n = 1;
+        break;
+      }
+      i++;
+      n++;
+
+    }
+    for(;;){
+      if(Number(yinTi) < yinStandard[i] && Number(yinTi) >= yinStandard[n]){
+        yinDefen = yinPoint[n];
+        i = 0;
+        n = 1;
+        break
+      }
+      if(Number(yinTi) > yinStandard[0]){
+        yinDefen = yinPoint[0];
+        i = 0;
+        n = 1;
+        break;
+      }
+      if(Number(yinTi) <= 0){
+        yinDefen = 0;
+        i = 0;
+        n = 1;
+        break;
+      }
+      i++;
+      n++;
+
+    }
+
+
+
+
+    var name = document.getElementById("name").value;
+    var tiaoYuan = document.getElementById("tiaoYuan").value;
+    var riChang = document.getElementById("riChang").value;
+    var xun = document.getElementById("xun").value;
+    var all = 0.2 * yinDefen + runDefen * 0.3 + zuoDefen * 0.2 + jumpDefen * 0.2 + Number(riChang) + Number(xun);
+    all = all.toFixed(2);
+    if(name == "选填"){
+      document.getElementById("demo").innerHTML=String("分数:"+all);
+
+    } else {
+      document.getElementById("demo").innerHTML=String(name+"同学，你的分数是："+all);
+
+
+    }
+    zuoC = zuoC.toFixed(1);
+    runC = runC.toFixed(0);
+    document.getElementById("rc").innerHTML="同学，这是一份关于你的成绩详细的报告，希望你能看完。你在800米跑步中，只跑了"+String(run)+"这个成绩不尽人意。你距离下一个等级"+String(nextRun)+"只差了"+String(runC)+"秒钟。我相信，这只不过是终点线前的一个身位，放慢步伐前的一股拼搏。很遗憾，如果你快了这"+String(runC)+"秒，你将提高"+ String(nextRunPoint)+"分。对于立定跳远，你跳了"+String(jump)+",显而易见的，你还能做的更好。你离下一个等级"+String(nextJump)+"里面只差了"+String(jumpC)+"厘米，而这意味着你失去了"+String(jumpPointC)+"分。" + "还有就是坐位体前屈，你推了"+String(zuoWei)+"厘米，你离下个等级"+String(nextZuo)+"只差了"+String(zuoC)+"厘米。这不过是因为你没有奋力一搏，而你失去的则有"+String(zuoPointC)+"分。朋友，体育分数的进步不是一蹴而就的，而是日积月累，希望你能在平时的训练中再接再厉，加油！" ;
+
+  }
+
+</script>
+
+</body>
+<style>
+.button {
+    background-color: aqua;
+    border: none;
+    color: white;
+    padding: 30px 40px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+	.button1 {
+    background-color:fuchsia;
+    border: none;
+    color: white;
+    padding: 30px 40px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+	.button2 {
+    background-color:chartreuse;
+    border: none;
+    color: white;
+    padding: 30px 40px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+	.button3 {
+    background-color:teal;
+    border: none;
+    color: white;
+    padding: 30px 40px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+</style>
+</html>
